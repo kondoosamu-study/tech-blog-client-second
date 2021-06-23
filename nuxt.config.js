@@ -8,7 +8,6 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
       { hid: 'description', name: 'description', content:
         `${process.env.SITE_TITLE}では日々の実務と学習で得た知見や実装時に困った技術に関してまとめています。` }
     ],
@@ -72,6 +71,9 @@ export default {
   build: {
   },
 
+  // Server configuration
+  serverMiddleware: ['~/server'],
+
   // env configuration
   env: {
     BASE_URL,
@@ -101,5 +103,18 @@ export default {
   server: {
     port: process.env.SERVER_PORT,
     host: process.env.SERVER_HOST,
+  },
+
+  // Error handling for unsafe-inline and sha256
+  render: {
+    csp: {
+      hashArgorism: 'sha256',
+      policies: {
+        'script-src': [
+          "'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='" // this line resolves the violation
+          // "'sha256-gv8e6l0LKMUPkcrpwLKlKFWopGfQcHwvAXKdXXERR5A='" // this line resolves the violation
+        ]
+      }
+    }
   },
 }

@@ -1,20 +1,32 @@
 <template>
   <div>
-    <Nuxt />
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand class @click="$router.push('/')">ok-engineering.net</b-navbar-brand>
+      <searchForm/>
+    </b-navbar>
+    <nuxt />
+    <footer>
+      <div class="light copyright-box text-center py-3" style="background-color: #000;">
+        &copy; 2020 Copyright:
+        <nuxt-link to="/" style="color: white;">ok-engineering.net</nuxt-link>
+      </div>
+    </footer>
   </div>
 </template>
 
+<script>
+import searchForm from '@/components/searchForm';
+export default {
+  components: {
+    searchForm
+  },
+}
+</script>
+
 <style>
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -25,38 +37,61 @@ html {
 }
 
 *,
-*::before,
-*::after {
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+#__layout > div > nav > div {
+  cursor: pointer;
 }
 
-.button--green:hover {
+#__layout > div > nav {
   color: #fff;
-  background-color: #3b8070;
+  background-color: #000 !important;
 }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+form > input {
+  height: 100%;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0.3rem;
 }
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+form > input::placeholder {
+  font-size: 0.6em;
+}
+
+.right {
+    margin: 0 0 0 auto;
+}
+
+/* SP用のCSS */
+@media only screen and (max-device-width: 480px) {
+  #__layout > div > nav > a {
+    margin: 0 auto !important;
+    font-family: Georgia,Times,serif; 
+  }
+  div > nav > li {
+    width: 100% !important;
+  }
+  div > nav > li > form{
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+}
+
+div > nav > li > form > button {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0px !important;
+}
+
+div > footer {
+  color: white !important;
+  background-color: #000 !important;
 }
 </style>

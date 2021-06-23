@@ -32,5 +32,7 @@
     "sprintf-js": "^1.0.3",
     "vue-toastification": "^1.7.11"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/moment": "^1.6.1"
+  }
 }
