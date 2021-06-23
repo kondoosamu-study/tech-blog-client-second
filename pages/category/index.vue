@@ -1,9 +1,10 @@
 <template>
   <div class="container py-5">
     <b-container fluid="sm md lg xl">
+      <categoryPageSubjectComponent/>
       <b-row no-gutters>
         <b-col md="8">
-          <div v-for="(article, index) in articles" :key="index">
+          <div v-for="(article, index) in articlesInSearchResults" :key="index">
             <nuxt-link :to="`/article/${article.id}`" class="article-link">
               <b-card no-body class="overflow-hidden w-100">
                 <b-row no-gutters>
@@ -12,9 +13,9 @@
                   </b-col>
                   <b-col md="10">
                     <b-card-body :title="article.title" class="text-left">
-                      <b-card-text class="article-context">{{ article.contents.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'').replace(/&/g, '').replace(/nbsp;/g, '') }}</b-card-text>
+                      <b-card-text class="article-context">{{ article.contents.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'').replace(/&/g, '').replace(/nbsp;/g, '').replace(/\=/g, '').replace(/gt;/g, '') }}</b-card-text>
                     </b-card-body>
-                    <small class="text-muted float-sm-right mx-2"><nuxt-link :to="`/category?name=${article.category}`" class="category-link">カテゴリ: {{ article.category }} </nuxt-link>{{ article.updatedAt }}</small>
+                    <small class="text-muted float-sm-right mx-2">カテゴリ: {{ article.category }} {{ article.updatedAt }}</small>
                   </b-col>
                 </b-row>
               </b-card>
@@ -22,7 +23,7 @@
           </div>
         </b-col>
         <b-col md="4">
-          <categoryRanking/>
+          <categoryRanking />
         </b-col>
       </b-row>
     </b-container>
@@ -31,19 +32,45 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import categoryRanking from '@/components/categoryRanking';
+import categoryPageSubjectComponent from "@/components/categoryPageSubjectComponent";
+import categoryRanking from "@/components/categoryRanking";
 export default {
   components: {
+    categoryPageSubjectComponent,
     categoryRanking
   },
-  async fetch({ store, $axios }) {
+  async fetch({ store, route }) {
     await store.dispatch("fetchAllArticles");
     await store.dispatch("createCategoryRanking");
+    await store.dispatch("getArticlesByCategory", { category: route.query.name });
+  },
+  watch: {
+    '$route'(to, from) {
+      this.fetchAllArticles();
+      this.createCategoryRanking();
+      this.getArticlesByCategory({ category: to.query.name });
+    }
   },
   computed: {
     ...mapGetters({ articles: "getArticles" }),
     ...mapGetters({ categoryRanking: "getCategoryRanking" }),
+    ...mapGetters({ articlesInSearchResults: "getCategorizedArticles" }),
   },
+  async mounted() {
+    await this.checkArticlesExists();
+  },
+  methods: {
+    ...mapActions([
+      "fetchAllArticles",
+      "createCategoryRanking",
+      "getArticlesByCategory",
+    ]),
+    checkArticlesExists() {
+      if (!this.articlesInSearchResults.length) {
+        this.$router.push('/');
+      }
+    },
+  }
 };
 </script>
 
@@ -85,7 +112,7 @@ body {
   margin-top: 8px;
 }
 
-.category-link, .article-link {
+.category-link {
   color: #2f3031 !important;
 }
 
@@ -94,22 +121,23 @@ body {
   text-decoration: none;
 }
 
-/* #__layout > div > div > div > div > div.col-md-4 > div {
-    margin-left: 1.5rem !important;
+/* #__layout > div > div > div > div > div.col-md-8 > div {
+  height: 100px;
 } */
 
-#__layout > div > div > div > div > div.col-md-4 > div > div.card-body > div > div > small {
-  float: right;
-}
-
 @media only screen and (max-device-width: 480px) {
+  /* コンテンツ */
   #__layout > div > div > div {
     margin-top: 8px;
   }
+
+  /* サムネイル画像 */
   div > div > div > img {
     height: 180px !important;
     width: 100%;
   }
+
+  /* カテゴリ */
   #__layout > div > div > div > div {
     margin-top: 8px;
     margin-left: 0;
@@ -124,12 +152,12 @@ body {
   }
 }
 
-/* @media only screen and (min-width:480px) and (max-width:1024px) { */
+@media only screen and (min-width:480px) and (max-width:1024px) {
   /* カテゴリ */
-  /* #__layout > div > div > div > div {
-    margin-top: auto;
-    margin-bottom: auto;
+  #__layout > div > div > div > div {
+    margin-top: 8px;
+    margin-left: 0;
+    width: 100%;
   }
-} */
-
+}
 </style>
