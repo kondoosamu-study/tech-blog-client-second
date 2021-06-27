@@ -72,7 +72,7 @@ export default {
   },
 
   // Server configuration
-  serverMiddleware: ['~/server'],
+  // serverMiddleware: ['~/server'],
 
   // env configuration
   env: {
