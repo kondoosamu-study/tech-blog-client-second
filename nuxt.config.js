@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { BASE_URL, BROWSER_BASE_URL, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_PORT, MYSQL_DB_NAME, SERVER_PORT, SERVER_HOST, SITE_TITLE } = process.env;
+const { BASE_URL, BROWSER_BASE_URL, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_PORT, MYSQL_DB_NAME, GOOGLE_ANALYTICS_ID, SERVER_PORT, SERVER_HOST, SITE_TITLE } = process.env;
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -25,7 +25,7 @@ export default {
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/firebase.js' },
     { src: '@/plugins/toast', mode: 'client' },
-    { src: '~plugins/ga.js', mode: 'client' },
+    // { src: '~plugins/ga.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -35,6 +35,8 @@ export default {
   buildModules: [
     // moment
     '@nuxtjs/moment',
+    // Google Analytics
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -83,6 +85,7 @@ export default {
     MYSQL_PASS,
     MYSQL_PORT,
     MYSQL_DB_NAME,
+    GOOGLE_ANALYTICS_ID,
     SERVER_PORT,
     SERVER_HOST,
     SITE_TITLE,
@@ -98,6 +101,16 @@ export default {
 
   // Moment Configuration
   moment: { locales: ['ja'] },
+
+  // Google Analytics Configuration
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
+  },
+  publicRuntimeConfig: {
+    googleAnalytics: {
+      id: process.env.GOOGLE_ANALYTICS_ID
+    }
+  },
 
   // Server Configuration
   server: {

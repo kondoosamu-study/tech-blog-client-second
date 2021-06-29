@@ -33,6 +33,7 @@
     "vue-toastification": "^1.7.11"
   },
   "devDependencies": {
+    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/moment": "^1.6.1"
   }
 }
