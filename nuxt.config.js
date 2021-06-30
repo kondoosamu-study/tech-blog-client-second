@@ -119,15 +119,15 @@ export default {
   },
 
   // Error handling for unsafe-inline and sha256
-  render: {
-    csp: {
-      hashArgorism: 'sha256',
-      policies: {
-        'script-src': [
-          "'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='" // this line resolves the violation
-          // "'sha256-gv8e6l0LKMUPkcrpwLKlKFWopGfQcHwvAXKdXXERR5A='" // this line resolves the violation
-        ]
-      }
-    }
-  },
+  // render: {
+  //   csp: {
+  //     hashArgorism: 'sha256',
+  //     policies: {
+  //       'script-src': [
+  //         "'sha256-4RS22DYeB7U14dra4KcQYxmwt5HkOInieXK1NUMBmQI='" // this line resolves the violation
+  //         // "'sha256-gv8e6l0LKMUPkcrpwLKlKFWopGfQcHwvAXKdXXERR5A='" // this line resolves the violation
+  //       ]
+  //     }
+  //   }
+  // },
 }
